@@ -3,6 +3,7 @@ let width = 640;
 let height = 640;
 
 let paused = false;
+let clearPending = false;
 
 let movingCenterRot;
 
@@ -40,8 +41,39 @@ penAttached = document.getElementById("pen-attached");
 speedMul = document.getElementById("speed");
 backgroundColor = document.getElementById("background-color");
 
-function togglePause() {
+let pausebutton = document.getElementById("pause-button");
+
+function togglePaused() {
+  if (paused) {
+    pausebutton.innerHTML = "Pause";
+  } else {
+    pausebutton.innerHTML = "Play";
+  }
   paused = !paused;
+}
+
+function clearCanvas() {
+  clear();
+  miniCanvas.clear();
+  background(backgroundColor.value);
+  movingCenterRot = 0;
+  paused = false;
+  draw();
+  togglePaused();
+}
+
+function updateCanvas() {
+  if (paused) {
+    paused = false;
+    var temp = speedMul.value;
+    speedMul.value = 0;
+    var tempcol = penColor.value;
+    penColor.value = color(0, 0, 0, 0);
+    draw();
+    speedMul.value = temp;
+    penColor.value = tempcol;
+    paused = true;
+  }
 }
 
 function setup() {
@@ -73,6 +105,10 @@ function setup() {
   backgroundColor.value = "#000000";
 
   movingCenterRot = 0;
+
+  clearPending = false;
+  paused = true;
+  pausebutton.innerHTML = "Play";
 }
 
 function draw() {
