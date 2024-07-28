@@ -1,0 +1,27 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#outer-container {
+    padding: 24px;
+}
+
+canvas {
+  display: block;
+}
+
+#outer-container {
+    display: flex;
+    
+}
+
+.controls-container {
+    padding: 24px;
+}
+
+
+.controls {
+    display: flex;
+    flex-direction: column;
+}
