@@ -64,15 +64,7 @@ function clearCanvas() {
 
 function updateCanvas() {
   if (paused) {
-    paused = false;
-    var temp = speedMul.value;
-    speedMul.value = 0;
-    var tempcol = penColor.value;
-    penColor.value = color(0, 0, 0, 0);
-    draw();
-    speedMul.value = temp;
-    penColor.value = tempcol;
-    paused = true;
+    draw(true);
   }
 }
 
@@ -96,7 +88,7 @@ function setup() {
   highlightRadius.value = 4;
   highlightColor.value = "#1eff1e";
   penColor.value = "#800080";
-  penDistance.value = 2;
+  penDistance.value = movingRadius.value / 10;
   penSize.value = 2;
   penVisible.checked = true;
   penAttached.checked = false;
@@ -107,31 +99,37 @@ function setup() {
   movingCenterRot = 0;
 
   clearPending = false;
-  paused = true;
+  paused = false;
+  draw();
+  togglePaused();
   pausebutton.innerHTML = "Play";
 }
 
-function draw() {
-  if (paused) {
+function draw(forced = false) {
+  if (paused && !forced) {
     return;
   }
-  movingCenterRot += speedMul.value / 100;
+  if (!forced) {
+    movingCenterRot += speedMul.value / 100;
+  }
 
   background(backgroundColor.value);
 
+  let sign = movingPosition.value == "out" ? 1 : -1;
+
   let x =
     320 +
-    (int(fixedRadius.value) + int(movingRadius.value)) * cos(movingCenterRot);
+    (int(fixedRadius.value) + int(movingRadius.value) * sign) *
+      cos(movingCenterRot);
   let y =
     320 -
-    (int(fixedRadius.value) + int(movingRadius.value)) * sin(movingCenterRot);
+    (int(fixedRadius.value) + int(movingRadius.value) * sign) *
+      sin(movingCenterRot);
 
-  let smallCircleRot =
-    (fixedRadius.value / movingRadius.value + 1) * movingCenterRot;
-  let drawPointX =
-    x - penDistance.value * movingRadius.value * cos(smallCircleRot);
-  let drawPointY =
-    y + penDistance.value * movingRadius.value * sin(smallCircleRot);
+  let movingCircleRot =
+    (fixedRadius.value / (movingRadius.value * sign) + 1) * movingCenterRot;
+  let drawPointX = x - penDistance.value * cos(movingCircleRot);
+  let drawPointY = y + penDistance.value * sin(movingCircleRot);
 
   //   console.log("x: " + x + ", y: " + y);
 
@@ -141,16 +139,16 @@ function draw() {
   circle(320, 320, 2 * fixedRadius.value);
 
   stroke((movingVisible.checked && movingColor1.value) || color(0, 0, 0, 0));
-  circle(x, y, 2 * movingRadius.value);
+  circle(x, y, 2 * movingRadius.value * sign);
 
   stroke((movingVisible.checked && movingColor2.value) || color(0, 0, 0, 0));
   arc(
     x,
     y,
-    2 * movingRadius.value,
-    2 * movingRadius.value,
-    0 - smallCircleRot,
-    PI - smallCircleRot
+    2 * movingRadius.value * sign,
+    2 * movingRadius.value * sign,
+    0 - movingCircleRot,
+    PI - movingCircleRot
   );
 
   stroke(
@@ -161,6 +159,9 @@ function draw() {
 
   if (penAttached.checked) {
     line(drawPointX, drawPointY, x, y);
+  }
+  if (forced) {
+    return;
   }
   miniCanvas.stroke(
     (penVisible.checked && penColor.value) || color(0, 0, 0, 0)
