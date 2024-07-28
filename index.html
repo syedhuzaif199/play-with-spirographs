@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div id="top-panel">
+        <div class="controls">
+            <button onclick="togglePause()">Play/Pause</button>
+        </div>
+    </div>
+    <div id="outer-container">
+        <div id="canvas-container"></div>
+
+        <!-- Fixed circle controls -->
+        <div id="controls-outer-container">
+            <div class="controls-container">
+                <span class="control-title">Fixed circle</span>
+                <div class="controls">
+                    <span><label for="fixed-radius">Radius</label><input id="fixed-radius" type="range" min="10" max="100"></span>
+                    <span><label for="fixed-visible">Visible</label><input id="fixed-visible" type="checkbox" checked></span>
+                    <span><label for="fixed-color">Color</label><input id="fixed-color" type="color"></span>
+                </div>
+            </div>
+            
+            <!-- Moving Circle controls -->
+            <div class="controls-container">
+                <span class="control-title">Moving circle</span>
+                <div class="controls">
+                    <span><label for="moving-radius">Radius</label><input id="moving-radius" type="range" min="10" max="100"></span>
+                    <span><label for="moving-position">Position</label><select id="moving-position">
+                        <option value="out">Outside</option>
+                        <option value="in">Inside</option>
+                    </select></span>
+                    <span><label for="moving-visible">Visible</label><input id="moving-visible" type="checkbox" checked></span>
+                    <span><label for="moving-color-1">Color 1</label><input id="moving-color-1" type="color"></span>
+                    <span><label for="moving-color-2">Color 2</label><input id="moving-color-2" type="color"></span>
+                </div>
+            </div>
+
+            <!-- Pen controls -->
+            <div class="controls-container">
+                <span class="control-title">Pen</span>
+                <div class="controls">
+                    <span><label for="pen-highlight-visible">Highlight Visible</label><input id="pen-highlight-visible" type="checkbox" checked></span>
+                    <span><label for="pen-highlight-radius">Highlight Radius</label><input id="pen-highlight-radius" type="range" min="1" max="20"></span>
+                    <span><label for="pen-highlight-color">Highlight Color</label><input id="pen-highlight-color" type="color"></span>
+                    <span><label for="pen-color">Pen Color</label><input id="pen-color" type="color"></span>
+                    <span><label for="pen-distance">Pen Distance</label><input id="pen-distance" type="range" min="0" max="5"></span>
+                    <span><label for="pen-size">Pen Size</label><input id="pen-size" type="range" min="0" max="5"></span>
+                    <span><label for="pen-visible">Pen Visible</label><input id="pen-visible" type="checkbox" checked></span>
+                    <span><label for="pen-attached">Show pen-circle attachment</label><input id="pen-attached" type="checkbox" checked="false"></span>
+                </div>
+            </div>
+
+            <!-- Misc controls -->
+            <div class="controls-container">
+                <span class="control-title">Other</span>
+                <div class="controls">
+                    <span><label for="speed">Speed</label><input id="speed" type="range" min="1" max="100"></span>
+                    <span><label for="background-color">Background Color</label><input id="background-color" type="color"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>  
+    <script src="./js/sketch.js"></script>
+  </body>
+</html>
